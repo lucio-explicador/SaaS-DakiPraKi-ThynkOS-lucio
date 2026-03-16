@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DakiPraKi — Tradução Online em Tempo Real</title>
+  <meta name="description"
+    content="DakiPraKi — Tradução online em tempo real de Português Moçambicano para Xichangana. Live caption com reconhecimento de voz." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  
+  <!-- PWA & Mobile Settings -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FF4000">
+
+  <!-- Estilos Externos -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════ NAVIGATION ══════════ -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <div class="logo-icon">
+          <!-- Logo de Duas Setas (Rapidez / Daqui para Aqui) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" />
+          </svg>
+        </div>
+        DakiPraKi
+      </a>
+      <ul class="nav-links">
+        <li><a href="#translator">Tradutor</a></li>
+        <li><a href="#features">Funcionalidades</a></li>
+      </ul>
+      <div class="nav-badge">
+        <div class="nav-dot"></div>
+        <span id="dict-count">-- entradas</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════ HERO ══════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-overline">DakiPraKi · Tradução em Texto Livre</div>
+    <h1>Tradução Contínua em Tempo Real.</h1>
+    <p class="hero-subtitle">
+      Escreva ou fale em Português Moçambicano e veja as frases a serem desconstruídas e traduzidas para Xichangana no ecrã.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#translator">Começar a Traduzir <span>→</span></a>
+      <a class="btn-secondary" href="#features">Saiba mais <span>↓</span></a>
+    </div>
+    <div class="hero-scroll"><div class="scroll-line"></div></div>
+  </section>
+
+  <!-- ══════════ TRANSLATOR ══════════ -->
+  <section class="translator-section" id="translator">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" id="btn-lang-pt" onclick="window.app.setLangDir('pt-ch')">Português</button>
+      <button class="swap-btn" onclick="window.app.swapLangDir()" title="Inverter direcção">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+      </button>
+      <button class="lang-btn" id="btn-lang-ch" onclick="window.app.setLangDir('ch-pt')">Xichangana</button>
+    </div>
+
+    <div class="panels">
+      <!-- INPUT PANEL (Origem) -->
+      <div class="panel">
+        <div class="panel-head">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="panel-lang src" id="lbl-src">Português</span>
+            <div class="live-badge" id="live-badge">
+              <div class="live-dot"></div>LIVE
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel-body">
+          <textarea id="inp" placeholder="Fale ou digite uma frase aqui..." spellcheck="false" oninput="window.app.handleInput()"></textarea>
+          <span class="interim-text" id="interim-text"></span>
+        </div>
+        
+        <div class="panel-foot">
+          <button class="icon-btn ios-mic" id="btn-mic" onclick="window.app.toggleMic()" title="Live Caption — Gravar voz">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
+          <button class="icon-btn" id="btn-speak-src" onclick="window.app.speakSource()" title="Ouvir texto de origem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          </button>
+          <button class="clear-btn" onclick="window.app.clearAll()">Limpar ×</button>
+        </div>
+      </div>
+
+      <!-- OUTPUT PANEL (Destino) -->
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-lang tgt" id="lbl-tgt">Xichangana</span>
+        </div>
+        
+        <div class="panel-body">
+          <div class="result-text" id="out">
+            <span class="result-placeholder">A tradução aparecerá aqui...</span>
+          </div>
+        </div>
+        
+        <div class="panel-foot" style="justify-content: flex-end; gap: 12px;">
+          <button class="icon-btn" id="btn-speak-tgt" onclick="window.app.speakTarget()" title="Ouvir tradução">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          </button>
+          <button class="icon-btn" id="btn-copy" onclick="window.app.copyResult()" title="Copiar tradução">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FEATURES ══════════ -->
+  <section class="features" id="features">
+    <div class="section-label">A Experiência DakiPraKi</div>
+    <div class="section-title">Onde a Tradição encontra a Tecnologia.</div>
+    
+    <div class="features-grid">
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon mic">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </div>
+        <h3>Live Caption Inteligente</h3>
+        <p>Desenvolvido para captar a cadência do Português Moçambicano e transcrever instantaneamente, permitindo uma comunicação fluida e sem barreiras gramaticais.</p>
+      </div>
+      
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon book">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        </div>
+        <h3>Dicionário Colaborativo</h3>
+        <p>A nossa base de dados cresce a cada tradução. Palavras desconhecidas são enviadas para a cloud, onde são validadas pela comunidade thynkOS para expansão contínua.</p>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon audio">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </div>
+        <h3>Instalação PWA</h3>
+        <p>Aceda como uma App nativa. Instale no seu ecrã inicial e utilize a plataforma com a rapidez de uma aplicação local.</p>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon audio" style="background: rgba(52, 199, 89, 0.1); color: #34c759;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        </div>
+        <h3>SaaS & Monetização</h3>
+        <p>Pronto para o mercado B2B. API de tradução para empresas, turismo e subscrições premium para transcrição ilimitada.</p>
+      </div>
+    </div>
+
+    <!-- Demo Section Below -->
+    <div class="demo-section" data-reveal>
+      <div class="demo-visual">
+         <div class="demo-placeholder">
+           <svg viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+             <polygon points="5 3 19 12 5 21 5 3"></polygon>
+           </svg>
+           <span class="demo-text">Clique para Ver Demonstração em Vídeo</span>
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" />
+        </svg>
+        DakiPraKi
+      </div>
+      <div class="footer-text">
+        Tradução online contínua · Português Moçambicano ↔ Xichangana Moçambicano<br>
+        <strong>desenvolvido pela thynkOS</strong>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/dictionary.js"></script>
+  <script src="js/app.js"></script>
+  
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => console.log('PWA: Service Worker registado', registration.scope))
+          .catch(err => console.error('PWA: Falha ao registar Service Worker', err));
+      });
+    }
+  </script>
+</body>
+
+</html>
